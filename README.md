@@ -30,7 +30,7 @@ But realistically, this library is only about as a secure as bcrypt.
 use \ParagonIE\PasswordLock\PasswordLock;
 use \Defuse\Crypto\Key;
 
-$options = ['cost' => 11]; // optional
+$options = ['cost' => 11];
 
 $newKey = Key::createNewRandomKey();
 if (isset($_POST['password'])) {
@@ -44,7 +44,7 @@ if (isset($_POST['password'])) {
 ### Verify MAC, Decrypt Ciphertext, Verify Password, Check rehash
 
 ```php
-$options = ['cost' => 11]; // optional
+$options = ['cost' => 11];
 
 if (isset($_POST['password'])) {
     if (!is_string($_POST['password'])) {
