@@ -12,14 +12,20 @@ class PasswordLockTest extends PHPUnit_Framework_TestCase
     {
         $key = Key::createNewRandomKey();
 
-        $password = PasswordLock::hashAndEncrypt('YELLOW SUBMARINE', $key);
+        $password = PasswordLock::hashAndEncrypt('YELLOW SUBMARINE', $key, NULL);
         
         $this->assertTrue(
-            PasswordLock::decryptAndVerify('YELLOW SUBMARINE', $password, $key)
+            PasswordLock::decryptAndVerify('YELLOW SUBMARINE', $password, $key, NULL)
         );
         
         $this->assertFalse(
-            PasswordLock::decryptAndVerify('YELLOW SUBMARINF', $password, $key)
+            PasswordLock::decryptAndVerify('YELLOW SUBMARINF', $password, $key, NULL)
+        );
+        
+        $options = ['cost' => 5];
+        
+        $this->assertTrue(
+            $new_password = PasswordLock::checkRehash('YELLOW SUBMARINE', $password, $key, $options)
         );
     }
     
