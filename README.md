@@ -30,23 +30,30 @@ But realistically, this library is only about as a secure as bcrypt.
 use \ParagonIE\PasswordLock\PasswordLock;
 use \Defuse\Crypto\Key;
 
+$options = ['cost' => 11]; // optional
+
 $newKey = Key::createNewRandomKey();
 if (isset($_POST['password'])) {
     if (!is_string($_POST['password'])) {
         die("Password must be a string");
     }
-    $storeMe = PasswordLock::hashAndEncrypt($_POST['password'], $key);
+    $storeMe = PasswordLock::hashAndEncrypt($_POST['password'], $key, $options);
 }
 ```
  
-### Verify MAC, Decrypt Ciphertext, Verify Password
+### Verify MAC, Decrypt Ciphertext, Verify Password, Check rehash
 
 ```php
+$options = ['cost' => 11]; // optional
+
 if (isset($_POST['password'])) {
     if (!is_string($_POST['password'])) {
         die("Password must be a string");
     }
-    if (PasswordLock::decryptAndVerify($_POST['password'], $storeMe, $key)) {
+    if (PasswordLock::decryptAndVerify($_POST['password'], $storeMe, $key, $options)) {
+        if ($storeMe = PasswordLock::checkRehash($_POST['password'], $storeMe, $key)) {
+            // Update storeMe in Database
+        }
         // Success!
     }
 }
