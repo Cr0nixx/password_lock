@@ -26,7 +26,7 @@ class PasswordLockTest extends PHPUnit_Framework_TestCase
 	$new_password = PasswordLock::checkRehash('YELLOW SUBMARINE', $password, $key, $options);
         $this->assertTrue(
             PasswordLock::decryptAndVerify('YELLOW SUBMARINE', $new_password, $key, $options)
-		);
+	);
     }
     
     /**
