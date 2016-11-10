@@ -1,5 +1,7 @@
 # Password Lock
 
+[![Build Status](https://travis-ci.org/Cr0nixx/password_lock.svg?branch=master)](https://travis-ci.org/Cr0nixx/password_lock)
+
 **MIT Licensed** - feel free to use to enhance the security of any of your PHP projects
 
 Wraps Bcrypt-SHA384 in Authenticated Encryption. Published by [Paragon Initiative Enteprises](https://paragonie.com). Check out our other [open source projects](https://paragonie.com/projects) too.
