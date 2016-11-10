@@ -15,7 +15,7 @@ class PasswordLock
      *
      * @param string $password
      * @param Key $aesKey
-	 * @param array $options
+     * @param array $options
      * @return string
      * @throws \Exception
      * @throws \InvalidArgumentException
@@ -107,14 +107,14 @@ class PasswordLock
         );
     }
 	
-	/**
+    /**
      * Check if password needs rehash -- same as decryptAndVerify but return new ciphertext if the hash changes
      *
      * @param string $ciphertext
      * @param  string $password
      * @param Key $aesKey
      * @return string
-	 * @throws \Exception
+     * @throws \Exception
      * @throws \InvalidArgumentException
      */
     public static function checkRehash(string $password, string $ciphertext, Key $aesKey, array $options = NULL): string
