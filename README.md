@@ -51,7 +51,7 @@ if (isset($_POST['password'])) {
         die("Password must be a string");
     }
     if (PasswordLock::decryptAndVerify($_POST['password'], $storeMe, $key, $options)) {
-        if ($storeMe = PasswordLock::checkRehash($_POST['password'], $storeMe, $key)) {
+        if ($storeMe = PasswordLock::checkRehash($_POST['password'], $storeMe, $key, $options)) {
             // Update storeMe in Database
         }
         // Success!
