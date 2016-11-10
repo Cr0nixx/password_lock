@@ -15,11 +15,12 @@ class PasswordLock
      *
      * @param string $password
      * @param Key $aesKey
+	 * @param array $options
      * @return string
      * @throws \Exception
      * @throws \InvalidArgumentException
      */
-    public static function hashAndEncrypt(string $password, Key $aesKey): string
+    public static function hashAndEncrypt(string $password, Key $aesKey, array $options = NULL): string
     {
         if (!\is_string($password)) {
             throw new \InvalidArgumentException(
@@ -30,7 +31,8 @@ class PasswordLock
             Base64::encode(
                 \hash('sha384', $password, true)
             ),
-            PASSWORD_DEFAULT
+            PASSWORD_DEFAULT,
+			$options
         );
         if ($hash === false) {
             throw new \Exception("Unknown hashing error.");
@@ -103,6 +105,51 @@ class PasswordLock
             ),
             $hash
         );
+    }
+	
+	/**
+     * Check if password needs rehash -- same as decryptAndVerify but return new ciphertext if the hash changes
+     *
+     * @param string $ciphertext
+     * @param  string $password
+     * @param Key $aesKey
+     * @return string
+	 * @throws \Exception
+     * @throws \InvalidArgumentException
+     */
+    public static function checkRehash(string $password, string $ciphertext, Key $aesKey, array $options = NULL): string
+    {
+        if (!\is_string($password)) {
+            throw new \InvalidArgumentException(
+                'Password must be a string.'
+            );
+        }
+        if (!\is_string($ciphertext)) {
+            throw new \InvalidArgumentException(
+                'Ciphertext must be a string.'
+            );
+        }
+        $hash = Crypto::decrypt(
+            $ciphertext,
+            $aesKey
+        );
+		if(\password_needs_rehash($hash, PASSWORD_DEFAULT, $options)) {
+			$hash = \password_hash(
+            Base64::encode(
+                \hash('sha384', $password, true)
+            ),
+            PASSWORD_DEFAULT,
+			$options
+			);
+			if ($hash === false) {
+				throw new \Exception("Unknown hashing error.");
+			}
+			
+			return Crypto::encrypt($hash, $aesKey);
+		}
+		
+		return FALSE;
+		
     }
 
     /**
