@@ -20,7 +20,7 @@ class PasswordLock
      * @throws \Exception
      * @throws \InvalidArgumentException
      */
-    public static function hashAndEncrypt(string $password, Key $aesKey, array $options = NULL): string
+    public static function hashAndEncrypt(string $password, Key $aesKey, array $options = []): string
     {
         if (!\is_string($password)) {
             throw new \InvalidArgumentException(
@@ -117,7 +117,7 @@ class PasswordLock
      * @throws \Exception
      * @throws \InvalidArgumentException
      */
-    public static function checkRehash(string $password, string $ciphertext, Key $aesKey, array $options = NULL): string
+    public static function checkRehash(string $password, string $ciphertext, Key $aesKey, array $options = []): string
     {
         if (!\is_string($password)) {
             throw new \InvalidArgumentException(
