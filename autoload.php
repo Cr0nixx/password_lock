@@ -1,7 +1,7 @@
 <?php
 /**
  * Paragon Initiative Enterprises - Password Lock
- * PSR-4 compatible autoloader
+ * PSR-4 compatible autoloader.
  */
 \spl_autoload_register(function ($class) {
     // Project-specific namespace prefix
@@ -36,6 +36,6 @@
     }
 });
 
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    include_once __DIR__ . '/vendor/autoload.php';
+if (file_exists(__DIR__.'/vendor/autoload.php')) {
+    include_once __DIR__.'/vendor/autoload.php';
 }
