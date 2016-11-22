@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
-use \ParagonIE\PasswordLock\PasswordLock;
 use \Defuse\Crypto\Key;
+use \ParagonIE\PasswordLock\PasswordLock;
+
 /**
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
@@ -11,24 +13,24 @@ class PasswordLockTest extends PHPUnit_Framework_TestCase
     public function testHash()
     {
         $key = Key::createNewRandomKey();
-	$options = [];
+        $options = [];
         $password = PasswordLock::hashAndEncrypt('YELLOW SUBMARINE', $key, $options);
-        
+
         $this->assertTrue(
             PasswordLock::decryptAndVerify('YELLOW SUBMARINE', $password, $key, $options)
         );
-        
+
         $this->assertFalse(
             PasswordLock::decryptAndVerify('YELLOW SUBMARINF', $password, $key, $options)
         );
-        
+
         $options = ['cost' => 5];
-	$new_password = PasswordLock::checkRehash('YELLOW SUBMARINE', $password, $key, $options);
+        $new_password = PasswordLock::checkRehash('YELLOW SUBMARINE', $password, $key, $options);
         $this->assertTrue(
             PasswordLock::decryptAndVerify('YELLOW SUBMARINE', $new_password, $key, $options)
-	);
+    );
     }
-    
+
     /**
      * @expectedException \Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException
      */
@@ -37,7 +39,7 @@ class PasswordLockTest extends PHPUnit_Framework_TestCase
         $key = Key::createNewRandomKey();
         $password = PasswordLock::hashAndEncrypt('YELLOW SUBMARINE', $key);
         $password[0] = (\ord($password[0]) === 0 ? 255 : 0);
-        
+
         PasswordLock::decryptAndVerify('YELLOW SUBMARINE', $password, $key);
     }
 }
